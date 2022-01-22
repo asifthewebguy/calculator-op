@@ -12,7 +12,6 @@ function add(a, b) {
 }
 
 function subtract(a, b) {
-    console.log(a - b);
     return a - b;
 }
 
@@ -43,14 +42,11 @@ function back() {
         } else {
             display.innerHTML = output;
         }
-        console.log("back button pressed");
-    } else {
-        console.log("back button pressed but disabled");
+
     }
 }
 
 function operate(operator, n1, n2) {
-    console.log(operator);
     let output = 0;
     switch (operator) {
         case "+":
@@ -72,7 +68,6 @@ function operate(operator, n1, n2) {
 }
 
 function answer(operator, n1, n2) {
-    console.log(operator, n1, n2);
     output = operate(operator, n1, n2);
     n1 = 0;
     n2 = 0;
@@ -113,7 +108,6 @@ function operatorsEvent(element) {
         back();
     }
     if (operator === "=") {
-        console.log(operator, "eqalto operator pressed");
         answer(o1, n1, parseFloat(display.innerHTML));
     }
     if (operator === "+" || operator === "-" || operator === "×" || operator === "÷") {
@@ -125,12 +119,10 @@ function operatorsEvent(element) {
                 clear = true;
             } else {
                 if (n1 && o1 && n2 == 0 && clear == true) {
-                    console.log(o1, 'updated to', operator);
                     o1 = operator;
                 } else {
                     n2 = cn;
                     output = operate(o1, n1, n2);
-                    console.log(operate(o1, n1, n2));
                     display.innerHTML = output;
                     o1 = operator;
                     n1 = output;
@@ -147,7 +139,19 @@ digits.forEach((element) => {
     element.addEventListener("click", () => digitsEvent(element));
 });
 
-// console.log(operators);
 operators.forEach((element) => {
     element.addEventListener("click", () => operatorsEvent(element));
+});
+
+window.addEventListener("keydown", (e) => {
+    console.log(e);
+    e.preventDefault();
+    let element = document.querySelector(`button[data-key="${e.key}"]`);
+    if (element) {
+        if (element.classList.contains('digit')) {
+            digitsEvent(element);
+        } else {
+            operatorsEvent(element);
+        }
+    }
 });
